@@ -9,25 +9,84 @@ import {
   Image,
   Alert,
   ScrollView,
-  Dimensions
+  Dimensions,
+  PermissionsAndroid,
+  Platform
 } from 'react-native';
 import searchlogo from './../assets/search.jpg';
 import SearchBar from 'react-native-search-bar'
 import axios from 'axios';
 import Card from './../components/card';
 import Bubble from './../components/bubble';
+// import Geolocation from '@react-native-community/geolocation';
 
 export default class App extends Component{
 
     state = {
         search:"search here!!",
-        elements: []
+        elements: [],
+        details:[],
+        currentLongitude: 'unknown',
+        currentLatitude: 'unknown',
     }
 
+    // componentDidMount = () => {
+    //     //Checking for the permission just after component loaded
+    //     if(Platform.OS === 'ios'){
+    //       this.callLocation();
+    //     }else{
+    //       async function requestLocationPermission() {
+    //         try {
+    //           const granted = await PermissionsAndroid.request(
+    //             PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,{
+    //               'title': 'Location Access Required',
+    //               'message': 'This App needs to Access your location'
+    //             }
+    //           )
+    //           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+    //             //To Check, If Permission is granted
+    //             this.callLocation();
+    //           } else {
+    //             alert("Permission Denied");
+    //           }
+    //         } catch (err) {
+    //           alert("err",err);
+    //           console.warn(err)
+    //         }
+    //       }
+    //       requestLocationPermission();
+    //     }    
+    //    }
+
+    //    callLocation(){
+    //     //alert("callLocation Called");
+    //       Geolocation.getCurrentPosition(
+    //         //Will give you the current location
+    //          (position) => {
+    //             const currentLongitude = JSON.stringify(position.coords.longitude);
+    //             const currentLatitude = JSON.stringify(position.coords.latitude);
+    //             console.log("loc:",currentLatitude);
+    //             this.setState({ currentLongitude:currentLongitude });
+    //             this.setState({ currentLatitude:currentLatitude });
+        
+    //          },
+    //          (error) => alert(error.message),
+    //          { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    //       );
+    //     }
+
+
     handleText = (text)=>{
-        this.setState({
-            search:text
-        })
+        if(text.slice(0,text.length-1) == "search here!!"){
+            this.setState({
+                search:""+text.slice(text.length-1,text.length)
+            })
+        }
+        else{
+            this.setState({
+                search:text
+            })
+        }
     }
 
     handleAdd = ()=>{
@@ -37,7 +96,35 @@ export default class App extends Component{
         this.setState({
             search: "",
             elements: newArray
+        });
+        let tablet = this.state.elements[this.state.elements.length-1];
+        console.log();
+        axios.post("http://192.168.0.103:3000/search",{
+            input:tablet
+        }).then( data =>{
+            let val = data["data"];
+            console.log(val);
+            console.log(this.state.details)
+            let newDetails = this.state.details
+            newDetails.push(val)
+            this.setState({
+                details: newDetails
+            })
+        }).catch(err=>console.log(err))
+    }
+
+    renderCards(){
+
+        return this.state.details.map(ele =>{
+            return (
+                <Card
+                key={ele.name}
+                name={ele.name}
+                img={`./../assets/${ele.name}`+`.jpg`}
+                /> 
+            )
         })
+  
     }
 
     render(){
@@ -63,7 +150,7 @@ export default class App extends Component{
                         onChangeText={(text)=>this.handleText(text)}
                         value={this.state.search}/>
                         <TouchableOpacity 
-                        style={styles.addbutton}
+                        style={styles.addbutton1}
                         onPress={this.handleAdd}>
                             <Text style={styles.add}>+</Text>
                         </TouchableOpacity>
@@ -79,10 +166,7 @@ export default class App extends Component{
                     {bubs}
                 </View>
                 <ScrollView style={styles.scroll}>
-                    <Card
-                        name="pharm1"
-                        img="http://bit.ly/2GfzooV"
-                        /> 
+                    {/* {this.renderCards()} */}
                 </ScrollView>
             </View>
         )
@@ -92,22 +176,43 @@ export default class App extends Component{
 const styles = {
     scroll:{
         // marginTop:10,
-        padding:20
+        paddingHorizontal:20,
+        // marginBottom:150
+        // borderWidth:1,
+        // borderColor:"green"
     },
     searchele:{
         flexDirection:"row",
-        margin:10
+        margin:10,
+        color:"white",
+        shadowColor:'black',
+        shadowOffset: {width: 0, height: 5},
+        shadowOpacity: 0.8,
+        elevation: 2,
+
     },
     searchbox:{
         width:Dimensions.get('window').width*0.65,
         height:40,
-        borderColor:'gray',
-        borderWidth:1,
+        backgroundColor:'#383838',
+        // borderWidth:1,
         // shadowColor:'#000',
         // shadowOffset: {width: 0, height: 3},
         // shadowOpacity: 0.3,
         // elevation: 1,
-        borderRadius:30
+        borderRadius:3,
+        color:"#FF6347",
+        textAlign:"center"
+    },
+    addbutton1:{
+        width:Dimensions.get('window').width*0.11,
+        height:40,
+        backgroundColor:"#383838",
+        borderRadius:3,
+        justifyContent:"center",
+        alignItems:"center",
+        marginLeft:3
+
     },
     addbutton:{
         width:Dimensions.get('window').width*0.11,
@@ -119,13 +224,14 @@ const styles = {
         marginLeft:10
     },
     add:{
-        color:"white",
+        color:"#FF6347",
         fontSize:35,
         // textAlign:"center"
     },
     bubbleview:{
         flexDirection:"row",
         flexWrap:"wrap",
+        marginHorizontal:10
         // padding:5
     },
     image1:{
@@ -133,6 +239,8 @@ const styles = {
         width:30
     },
     panel:{
-        backgroundColor:"black"
+        backgroundColor:"black",
+        flex:1
+        // marginBottom:100
     }
 }

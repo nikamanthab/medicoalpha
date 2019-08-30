@@ -16,7 +16,7 @@ import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 
 export default class App extends Component{
     render(){
         return(
-            <View>               
+            <View style={styles.main}>               
                 <Card style={styles.cardstyle} isDark={true}>
                     <CardImage 
                     style={styles.image1}
@@ -50,10 +50,15 @@ export default class App extends Component{
 
 const styles ={
     cardstyle:{
-        backgroundColor:'black',
-        borderRadius:10
+        backgroundColor:'orange',
+        borderRadius:10,
+        marginBottom:10,
     },
     image1:{
         borderRadius:10
+    },
+    main:{
+        // borderColor:"green",
+        // borderWidth: 2,
     }
 }
