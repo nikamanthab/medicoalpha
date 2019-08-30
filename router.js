@@ -1,7 +1,5 @@
 var bodyparser = require("body-parser");
 
-
-
 function router(bundle) {
 
     let app = bundle.app;
@@ -37,21 +35,48 @@ function router(bundle) {
     });
 
 
-    app.get("/loadmedicine", (req, res) => {
-        let count = req.body.medicines.length;
+    app.post("/loadmedicine", (req, res) => {
+        db.collection("medicines").add(req.body).then(success.bind(null, res));
+    });
 
-        db.collection("pharmacy").doc(req.body.uid).update({
-            medicines: firebase.firestore.FieldValue.arrayUnion(...req.body.medicines),
-            count: firebase.firestore.FieldValue.increment(count)
-        }).then(success.bind(null, res));
+    app.post("/updatecount", async (req, res) => {
+        let medic = await db.collection("medicines").where("uid", "==", req.body.uid).where("name", "==", req.body.name).get();
+        medic.forEach((doc)=>{
+            db.collection("medicines").doc(doc.id).update({count:req.body.count}).then(()=>{
+                res.send("success");
+            })
+        })
+    });
 
-    })
+    app.get("/getmedicine",async (req,res)=>{
+        let result=[];
+        let snapshots=await db.collection("medicines").where("uid","==",req.body.uid).get();
+        snapshots.forEach((doc)=>{
+            result.push(doc.data());
+        });
+        res.json(result);
+    });
+
+    app.get("/search",(req,res)=>{
+        let data=req.body.input;
+        let result=[];
+
+            let snapshots=await db.collection("medicines").where("name","==",data).get();
+
+            snapshots.forEach((doc)=>{
+               let med=doc.data();
+               db.collection("pharmacy").doc(med.uid).get().then
+            });
+           
+     
+    });
+
 
 };
 
 function success(a, b) {
-    var result="done";
-    if(b){
+    var result = "done";
+    if (b) {
         result = b.data();
     }
     a.send(result);
