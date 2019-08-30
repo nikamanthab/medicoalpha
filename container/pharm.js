@@ -19,6 +19,8 @@ import axios from 'axios';
 import Card from './../components/card';
 import Bubble from './../components/bubble';
 // import Geolocation from '@react-native-community/geolocation';
+import Geolocation from 'react-native-geolocation-service';
+
 
 export default class App extends Component{
 
@@ -30,50 +32,49 @@ export default class App extends Component{
         currentLatitude: 'unknown',
     }
 
-    // componentDidMount = () => {
-    //     //Checking for the permission just after component loaded
-    //     if(Platform.OS === 'ios'){
-    //       this.callLocation();
-    //     }else{
-    //       async function requestLocationPermission() {
-    //         try {
-    //           const granted = await PermissionsAndroid.request(
-    //             PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,{
-    //               'title': 'Location Access Required',
-    //               'message': 'This App needs to Access your location'
-    //             }
-    //           )
-    //           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-    //             //To Check, If Permission is granted
-    //             this.callLocation();
-    //           } else {
-    //             alert("Permission Denied");
-    //           }
-    //         } catch (err) {
-    //           alert("err",err);
-    //           console.warn(err)
-    //         }
-    //       }
-    //       requestLocationPermission();
-    //     }    
-    //    }
+    componentDidMount = () => {
+        var that =this;
+        //Checking for the permission just after component loaded
+        if(Platform.OS === 'ios'){
+          this.callLocation(that);
+        }else{
+          async function requestLocationPermission() {
+            try {
+              const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,{
+                  'title': 'Location Access Required',
+                  'message': 'This App needs to Access your location'
+                }
+              )
+              if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                //To Check, If Permission is granted
+                that.callLocation(that);
+              } else {
+                alert("Permission Denied");
+              }
+            } catch (err) {
+              alert("err",err);
+              console.warn(err)
+            }
+          }
+          requestLocationPermission();
+        }    
+       }
 
-    //    callLocation(){
-    //     //alert("callLocation Called");
-    //       Geolocation.getCurrentPosition(
-    //         //Will give you the current location
-    //          (position) => {
-    //             const currentLongitude = JSON.stringify(position.coords.longitude);
-    //             const currentLatitude = JSON.stringify(position.coords.latitude);
-    //             console.log("loc:",currentLatitude);
-    //             this.setState({ currentLongitude:currentLongitude });
-    //             this.setState({ currentLatitude:currentLatitude });
-        
-    //          },
-    //          (error) => alert(error.message),
-    //          { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
-    //       );
-    //     }
+       callLocation(that){
+        //alert("callLocation Called");
+          Geolocation.getCurrentPosition(
+             (position) => {
+                const currentLongitude = JSON.stringify(position.coords.longitude);
+                const currentLatitude = JSON.stringify(position.coords.latitude);
+
+                that.setState({ currentLongitude:currentLongitude });
+                that.setState({ currentLatitude:currentLatitude });
+             },
+             (error) => alert(error.message),
+             { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+          );
+        }
 
 
     handleText = (text)=>{
@@ -118,7 +119,7 @@ export default class App extends Component{
         return this.state.details.map(ele =>{
             return (
                 <Card
-                key={ele.name}
+                key={Object.values(ele)}
                 name={ele.name}
                 img={`./../assets/${ele.name}`+`.jpg`}
                 /> 

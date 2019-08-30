@@ -7,7 +7,8 @@ import {
   Button,
   TouchableHighlight,
   Image,
-  Alert
+  Alert,
+  Linking
 } from 'react-native';
 import axios from 'axios';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-cards';
@@ -31,7 +32,7 @@ export default class App extends Component{
                     separator={true} 
                     inColumn={false}>
                     <CardButton
-                        onPress={() => {}}
+                        onPress={() => Linking.openURL('https://www.google.com/maps/search/?api=1&query=58.698017,-152.522067')}
                         title="Share"
                         color="#FF6347"
                     />
