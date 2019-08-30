@@ -12,6 +12,9 @@
     "react": "16.8.6",
     "react-native": "0.60.5",
     "react-native-ble-manager": "^6.6.8",
+    "react-native-cards": "^1.1.4",
+    "react-native-gesture-handler": "^1.4.1",
+    "react-native-search-bar": "^3.4.2",
     "react-navigation": "^3.12.1"
   },
   "devDependencies": {

@@ -188,6 +188,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-gesture-handler')
     implementation project(':react-native-ble-manager')
     compile project(':react-native-ble-manager')
     implementation fileTree(dir: "libs", include: ["*.jar"])

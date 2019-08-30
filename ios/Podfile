@@ -29,6 +29,10 @@ target 'bt' do
 
   pod 'react-native-ble-manager', :path => '../node_modules/react-native-ble-manager'
 
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
+  pod 'ReactNativeSearchBar', :path => '../node_modules/react-native-search-bar'
+
   target 'btTests' do
     inherit! :search_paths
     # Pods for testing
