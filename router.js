@@ -57,16 +57,29 @@ function router(bundle) {
         res.json(result);
     });
 
-    app.get("/search",(req,res)=>{
+    app.post("/search",async (req,res)=>{
         let data=req.body.input;
+       let obj={};
         let result=[];
 
-            let snapshots=await db.collection("medicines").where("name","==",data).get();
+         db.collection("medicines").where("name","==",data).get().then((snapshots)=>{
+            snapshots.forEach((doc,i)=>{
+                let med=doc.data();
+                if(med.count===0){
+                    return ;
+                }
+                db.collection("pharmacy").doc(med.uid).get().then((doc)=>{
+                  let master=doc.data();                
+                  master.med=med;
+                  result.push(master);
+                  if(i==snapshots.length-1){
+                      obj[req.body.input]=result;
+                      res.json(obj);
+                  }
+                })
+             });
+         })
 
-            snapshots.forEach((doc)=>{
-               let med=doc.data();
-               db.collection("pharmacy").doc(med.uid).get().then
-            });
            
      
     });
