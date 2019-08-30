@@ -16,6 +16,8 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+app.use("/",express.static("./public"));
+
 router({
     app,
     firebase
