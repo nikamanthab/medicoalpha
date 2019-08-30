@@ -22,23 +22,21 @@ export default class App extends Component{
                     <CardImage 
                     style={styles.image1}
                     source={{uri: `${this.props.img}`}} 
-                    title={this.props.name}
+                    title={this.props.answer.name}
                     />
                     <CardTitle
-                    subtitle="Number 6"
+                    subtitle="Address 1"
                     />
                     <CardContent text="chenna ngfhghjfjh nhvhhhj mbhjghjgjhgjhhjjkggkkkkkkkggggggggggggggggggggggggggggggi" />
+                    {/* <View>
+                        
+                    </View> */}
                     <CardAction 
                     separator={true} 
                     inColumn={false}>
                     <CardButton
                         onPress={() => Linking.openURL('https://www.google.com/maps/search/?api=1&query=58.698017,-152.522067')}
-                        title="Share"
-                        color="#FF6347"
-                    />
-                    <CardButton
-                        onPress={() => {}}
-                        title="Explore"
+                        title="Explore in map"
                         color="#FF6347"
                     />
                     </CardAction>

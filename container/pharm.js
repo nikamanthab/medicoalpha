@@ -20,6 +20,8 @@ import Card from './../components/card';
 import Bubble from './../components/bubble';
 // import Geolocation from '@react-native-community/geolocation';
 import Geolocation from 'react-native-geolocation-service';
+import getDistance from 'geolib/es/getDistance';
+
 
 
 export default class App extends Component{
@@ -30,6 +32,11 @@ export default class App extends Component{
         details:[],
         currentLongitude: 'unknown',
         currentLatitude: 'unknown',
+        answer:[]
+    }
+
+    gogo = (obj) => {
+        return getDistance(obj,{latitude: this.state.currentLatitude, longitude: currentLongitude})
     }
 
     componentDidMount = () => {
@@ -67,6 +74,10 @@ export default class App extends Component{
              (position) => {
                 const currentLongitude = JSON.stringify(position.coords.longitude);
                 const currentLatitude = JSON.stringify(position.coords.latitude);
+                let d={
+                    latitude:51.525,
+                    longitude:7.4575
+                };
 
                 that.setState({ currentLongitude:currentLongitude });
                 that.setState({ currentLatitude:currentLatitude });
@@ -104,8 +115,8 @@ export default class App extends Component{
             input:tablet
         }).then( data =>{
             let val = data["data"];
-            console.log(val);
-            console.log(this.state.details)
+            // console.log(val);
+            // console.log(this.state.details)
             let newDetails = this.state.details
             newDetails.push(val)
             this.setState({
@@ -115,24 +126,67 @@ export default class App extends Component{
     }
 
     renderCards(){
-
-        return this.state.details.map(ele =>{
-            return (
-                <Card
-                key={Object.values(ele)}
-                name={ele.name}
-                img={`./../assets/${ele.name}`+`.jpg`}
-                /> 
+        if(this.state.answer === []){
+            return(
+                <View></View>
             )
-        })
+        }
+        else{
+            return this.state.answer.map(ele =>{
+                return (
+                    <Card
+                    key={ele}
+                    answer={ele}
+                    /> 
+                    )
+                })
+            } 
   
+    }
+
+    handlerender = () =>{
+        let distpharm = {};
+        console.log(this.state.details)
+        Object.keys(this.state.details).forEach(data1 => {
+            let data = this.state.details[data1]
+        Object.values(data).forEach( ele1 => {
+            ele1.forEach( ele => {
+                    if(Object.keys(distpharm).indexOf(ele["name"]) == -1){
+                        //  console.log("hoi");
+                          distpharm[ele["name"]] = {tablet:[ele["med"]["name"]],count:1,loc:ele["name"]};
+                    }
+                    else{
+                            console.log("huq",distpharm[ele["name"]]["tablet"]);
+                            console.log(ele["med"]["name"]);
+                            distpharm[ele["name"]]["tablet"].push(ele["med"]["name"])
+                            distpharm[ele["name"]]["count"] = distpharm[ele["name"]]["count"]+1;
+                    }
+                    });
+            })
+        })
+
+       let answer= Object.values(distpharm);
+       console.log(answer)
+       answer.sort(function(a, b) { 
+            return a.count - b.count;
+        })
+        
+        
+        
+        console.log(answer);
+        this.setState({
+            answer:answer,
+        })
+
+
+
     }
 
     render(){
 
         let bubs = <View></View>
         if(this.state.elements.length!==0){
-            console.log(this.state.elements);
+            // console.log(this.state.elements);
             bubs = this.state.elements.map( ele=>{
                 return(
                     <Bubble
@@ -157,7 +211,7 @@ export default class App extends Component{
                         </TouchableOpacity>
                         <TouchableOpacity 
                         style={styles.addbutton}
-                        onPress={this.handleAdd}>
+                        onPress={this.handlerender}>
                             <Image source={searchlogo}
                                 style={styles.image1}                                
                             />
@@ -167,7 +221,7 @@ export default class App extends Component{
                     {bubs}
                 </View>
                 <ScrollView style={styles.scroll}>
-                    {/* {this.renderCards()} */}
+                    {this.renderCards()}
                 </ScrollView>
             </View>
         )
