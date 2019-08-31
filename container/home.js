@@ -34,7 +34,7 @@ export default class App extends Component{
                         </View>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity 
+                {/* <TouchableOpacity 
                     onPress={()=>this.handleRoute('Diag')}>
                     <View style={[styles.card,styles.loginButton,styles.buttonContainer]}>
                         <Image source={logo2}
@@ -44,7 +44,7 @@ export default class App extends Component{
                             <Text style={styles.textc}>Diagnostics</Text>
                         </View>
                     </View>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         )
     }

@@ -31,7 +31,7 @@ export default class App extends Component{
                 key={ele}
                 />)
         })
-        console.log(this.props.answer)
+        console.log("!!!",this.props.answer)
         console.log("lat:",lat,"lng:",lng);
 
         return(
@@ -39,12 +39,19 @@ export default class App extends Component{
                 <Card style={styles.cardstyle} isDark={true}>
                     <CardImage 
                     style={styles.image1}
-                    source={storeimg} 
+                    source={{uri:this.props.answer.photo}} 
                     title={this.props.answer.loc}
                     />
-                    <CardTitle
-                    subtitle="Address 1"
-                    />
+                    <View style={styles.address}>
+                        <Text style={{color:"white"}}>
+                            {this.props.answer.address}
+                        </Text>
+                        <View >
+                            <Text style={{color:"orange"}}>
+                                {(parseFloat(this.props.answer.distance)/1000).toFixed(1) + "km"}
+                            </Text>
+                        </View>
+                    </View>
                     {/* <CardContent text="chenna ngfhghjfjh nhvhhhj mbhjghjgjhgjhhjjkggkkkkkkkggggggggggggggggggggggggggggggi" /> */}
                     <Text style={styles.red}>Available tablets</Text>
                     <View style={styles.availablelist}>
@@ -53,11 +60,15 @@ export default class App extends Component{
                     <CardAction 
                     separator={true} 
                     inColumn={false}>
+                        {/* <View style={styles.btnview}> */}
+
                     <CardButton
                         onPress={() => Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`)}
                         title="Explore in map"
-                        color="#FF6347"
-                    />
+                        color="white"
+                        style={styles.cardbtn}
+                        />
+                    {/* </View> */}
                     </CardAction>
                 </Card>
                 
@@ -67,6 +78,9 @@ export default class App extends Component{
 };
 
 const styles ={
+    address:{
+        padding:20
+    },
     cardstyle:{
         backgroundColor:'#333333',
         borderRadius:10,
@@ -91,5 +105,18 @@ const styles ={
         // fontWeight:10,
         color:"#FF6347",
         padding:10
-    }
+    },
+    cardbtn:{
+        backgroundColor:"red",
+        alignItems:"center",
+        justifyContent: "center",
+        paddingLeft: 20,
+        marginLeft: 100,
+        color:"white"
+    },
+    // btnview:{
+    //     alignItems:"center",
+    //     justifyContent: "center",
+
+    // }
 }

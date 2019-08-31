@@ -114,7 +114,7 @@ export default class App extends Component{
         });
         let tablet = this.state.elements[this.state.elements.length-1];
         console.log();
-        axios.post("http://192.168.0.103:3000/search",{
+        axios.post("http://192.168.43.233:3000/search",{
             input:tablet
         }).then( data =>{
             let val = data["data"];
@@ -127,7 +127,7 @@ export default class App extends Component{
                 details: newDetails
             })
             console.log("after set state");
-        }).catch(err=>console.log(err))
+        }).catch(err=>console.log(err)) 
     }
 
     renderCards(){
@@ -161,19 +161,21 @@ export default class App extends Component{
 
         setTimeout(()=> {
             let distpharm = {};
-        console.log(this.state.details)
+        console.log(Object.keys(this.state.details))
         Object.keys(this.state.details).forEach(data1 => {
             let data = this.state.details[data1]
         Object.values(data).forEach( ele1 => {
             ele1.forEach( ele => {
                     if(Object.keys(distpharm).indexOf(ele["name"]) == -1){
-                        //  console.log("hoi",ele);    
+                         console.log("hoi",ele);    
                           distpharm[ele["name"]] = {tablet:[ele["med"]["name"]],
                                                     count:1,
                                                     loc:ele["name"],
                                                     latitude:ele["latlng"].split(',')[0],
                                                     longitude:ele["latlng"].split(',')[1],
-                                                    distance: this.gogo({latitude:ele["latlng"].split(',')[0],longitude:ele["latlng"].split(',')[1]})
+                                                    distance: this.gogo({latitude:ele["latlng"].split(',')[0],longitude:ele["latlng"].split(',')[1]}),
+                                                    address:ele["address"],
+                                                    photo:ele["photo"]
                                                 };
                     }
                     else{
@@ -187,15 +189,16 @@ export default class App extends Component{
         })
 
        let answer= Object.values(distpharm);
+       console.log("dist",distpharm);
        console.log(answer)
        answer.sort(function(a, b) { 
             return b.count - a.count;
         })
         
-        let sameCountlist = []
-        let result = []
-
-        let sc = answer[0]["count"]
+        let sameCountlist = [];
+        let result = [];
+        // console.log("boom:",answer);
+        let sc = answer[0]["count"];
         answer.forEach(ele=>{
             if(ele["count"] == sc){
                 sameCountlist.push(ele)
@@ -224,7 +227,7 @@ export default class App extends Component{
             answer:answer,
         })
 
-          }, 2000);
+          }, 5000);
 
 
 

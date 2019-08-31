@@ -35,8 +35,8 @@ import {createSwitchNavigator, createAppContainer} from 'react-navigation'
 
 
 const AppSwitchNavigator = createSwitchNavigator({
-    Pharm: {screen: Pharm },
     Home: {screen: Home},
+    Pharm: {screen: Pharm },
     Diag : {screen: Diag},
 });
 

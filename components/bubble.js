@@ -39,7 +39,7 @@ const styles = {
         color:"white"
     },
     bubble:{
-        backgroundColor:"gray",
+        backgroundColor:"#FF6347",
         borderRadius:20,
         padding:10,
         // width:"auto"
