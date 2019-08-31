@@ -32,11 +32,12 @@ export default class App extends Component{
         details:[],
         currentLongitude: 'unknown',
         currentLatitude: 'unknown',
-        answer:[]
+        answer:[],
+        pressPlus: false
     }
 
     gogo = (obj) => {
-        return getDistance(obj,{latitude: this.state.currentLatitude, longitude: currentLongitude})
+        return getDistance(obj,{latitude: this.state.currentLatitude, longitude: this.state.currentLongitude})
     }
 
     componentDidMount = () => {
@@ -81,6 +82,7 @@ export default class App extends Component{
 
                 that.setState({ currentLongitude:currentLongitude });
                 that.setState({ currentLatitude:currentLatitude });
+                console.log("yoyo",this.state)
              },
              (error) => alert(error.message),
              { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
@@ -107,7 +109,8 @@ export default class App extends Component{
         newArray.push(s.search)
         this.setState({
             search: "",
-            elements: newArray
+            elements: newArray,
+            pressPlus: true
         });
         let tablet = this.state.elements[this.state.elements.length-1];
         console.log();
@@ -115,20 +118,23 @@ export default class App extends Component{
             input:tablet
         }).then( data =>{
             let val = data["data"];
-            // console.log(val);
+            console.log(val);
             // console.log(this.state.details)
             let newDetails = this.state.details
             newDetails.push(val)
+            console.log("before set state");
             this.setState({
                 details: newDetails
             })
+            console.log("after set state");
         }).catch(err=>console.log(err))
     }
 
     renderCards(){
         if(this.state.answer === []){
             return(
-                <View></View>
+                <View>
+                </View>
             )
         }
         else{
@@ -145,15 +151,29 @@ export default class App extends Component{
     }
 
     handlerender = () =>{
-        let distpharm = {};
+        if(!this.state.pressPlus){
+            console.log("work")
+            this.handleAdd();
+            
+        }
+
+
+        setTimeout(()=> {
+            let distpharm = {};
         console.log(this.state.details)
         Object.keys(this.state.details).forEach(data1 => {
             let data = this.state.details[data1]
         Object.values(data).forEach( ele1 => {
             ele1.forEach( ele => {
                     if(Object.keys(distpharm).indexOf(ele["name"]) == -1){
-                        //  console.log("hoi");
-                          distpharm[ele["name"]] = {tablet:[ele["med"]["name"]],count:1,loc:ele["name"]};
+                        //  console.log("hoi",ele);    
+                          distpharm[ele["name"]] = {tablet:[ele["med"]["name"]],
+                                                    count:1,
+                                                    loc:ele["name"],
+                                                    latitute:ele["latlng"].split(',')[0],
+                                                    longitude:ele["latlng"].split(',')[1],
+                                                    distance: this.gogo({latitude:ele["latlng"].split(',')[0],longitude:ele["latlng"].split(',')[1]})
+                                                };
                     }
                     else{
                             console.log("huq",distpharm[ele["name"]]["tablet"]);
@@ -168,16 +188,46 @@ export default class App extends Component{
        let answer= Object.values(distpharm);
        console.log(answer)
        answer.sort(function(a, b) { 
-            return a.count - b.count;
+            return b.count - a.count;
         })
         
-        
+        let sameCountlist = []
+        let result = []
+
+        let sc = answer[0]["count"]
+        answer.forEach(ele=>{
+            if(ele["count"] == sc){
+                sameCountlist.push(ele)
+            }
+            else{
+                sameCountlist.sort((a,b)=>{
+                    return a.distance - b.distance
+                })
+                result = result.concat(sameCountlist);
+                sc = ele["count"]
+                sameCountlist = [];
+                sameCountlist.push(ele);
+            }
+
+        })
+        if(sameCountlist.lengh!=0){
+            sameCountlist.sort((a,b)=>{
+                return a.distance - b.distance
+            })
+            result = result.concat(sameCountlist);
+            sameCountlist = [];
+        }
         
         console.log(answer);
         this.setState({
             answer:answer,
         })
 
+          }, 2000);
+
+
+
+        
 
 
     }
