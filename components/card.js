@@ -19,6 +19,9 @@ import Bubble from './bubble';
 export default class App extends Component{
     render(){
 
+        let lat = parseFloat(this.props.answer["latitude"])
+        let lng = parseFloat(this.props.answer["longitude"])
+
         let list = <View></View>
         list = this.props.answer.tablet.map(ele=>{
             return (
@@ -28,6 +31,8 @@ export default class App extends Component{
                 key={ele}
                 />)
         })
+        console.log(this.props.answer)
+        console.log("lat:",lat,"lng:",lng);
 
         return(
             <View style={styles.main}>               
@@ -49,7 +54,7 @@ export default class App extends Component{
                     separator={true} 
                     inColumn={false}>
                     <CardButton
-                        onPress={() => Linking.openURL('https://www.google.com/maps/search/?api=1&query=58.698017,-152.522067')}
+                        onPress={() => Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`)}
                         title="Explore in map"
                         color="#FF6347"
                     />

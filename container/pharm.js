@@ -139,6 +139,7 @@ export default class App extends Component{
         }
         else{
             return this.state.answer.map(ele =>{
+                console.log("abbi",ele)
                 return (
                     <Card
                     key={ele}
@@ -170,7 +171,7 @@ export default class App extends Component{
                           distpharm[ele["name"]] = {tablet:[ele["med"]["name"]],
                                                     count:1,
                                                     loc:ele["name"],
-                                                    latitute:ele["latlng"].split(',')[0],
+                                                    latitude:ele["latlng"].split(',')[0],
                                                     longitude:ele["latlng"].split(',')[1],
                                                     distance: this.gogo({latitude:ele["latlng"].split(',')[0],longitude:ele["latlng"].split(',')[1]})
                                                 };
