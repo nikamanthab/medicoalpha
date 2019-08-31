@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:700|Source+Sans+Pro&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/167c793ee1.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.css">
+
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="padd"></div>
+            <h3 class="bold text-center padd">Pharmacy details</h3>
+            <div class="container">
+                <form>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Pharmacy name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Enter name">
+
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="addr" placeholder="address">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="latlng" placeholder="latitude & longitude">
+                    </div>
+
+                    <button type="submit" class="animated zoomIn btn btn-primary hvr-shutter-in-horizontal extend">Submit</button>
+                </form>
+            </div>
+            <br>
+            <br>
+            <section class="hide" id="loadify">
+                <h3 class="bold text-center padd">Load and Update medicine</h3>
+                <div class="container">
+                    <form>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Medicine data</label>
+                            <input type="text" class="form-control" id="dinfo" placeholder="Enter data">
+                            <small id="emailHelp" class="form-text text-muted">Type in medicine-count-price
+                                format</small>
+                        </div>
+                        <div class="flex">
+                            <button  id="loadbtn" style="width:60%;margin:8px" class=" btn btn-primary hvr-shutter-in-horizontal extend">Load</button>
+                            <button  id="uploadbtn" style="width:60%;margin:8px" class=" btn btn-primary hvr-shutter-in-horizontal extend">Update</button>
+                        </div>
+
+                    </form>
+                </div>
+            </section>
+
+            <br>
+        </div>
+        <div class="col-md-6 hide" id="cols">
+            <div class="padd">
+                <div class="padd">
+                    <h3 class="bold text-center padd">API Integration</h3>
+                    <br>
+
+                    <div class="flex flexit">
+                        <button class="btn btn-success text-center">GET /getpharmacy</button>
+                        <p class="padd text-center">To retrieve the pharmacy</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+    <script src="home.js"></script>
+
+</body>
+
+</html>

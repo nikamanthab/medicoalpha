@@ -37,7 +37,7 @@
               console.log("signedin");
               return firebase.firestore().collection("users").doc(user.uid).set({
                   name: user.displayName,
-                  photo: user.photoURL              })
+                  photo: user.photoURL})
           }).then(() => {
               window.open("home.html", "_self");
           }).catch(function (error) {
