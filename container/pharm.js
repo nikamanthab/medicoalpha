@@ -138,11 +138,11 @@ export default class App extends Component{
             )
         }
         else{
-            return this.state.answer.map(ele =>{
+            return this.state.answer.map((ele,i) =>{
                 console.log("abbi",ele)
                 return (
                     <Card
-                    key={ele}
+                    key={i}
                     answer={ele}
                     /> 
                     )

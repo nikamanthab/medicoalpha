@@ -57,7 +57,7 @@ const styles = {
     },
     textc:{
         textAlign:"center",
-        color:"white",
+        // color:"white",
         fontWeight:"bold",
         // borderColor:"green",
         // borderWidth:2

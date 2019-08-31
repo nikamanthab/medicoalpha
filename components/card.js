@@ -65,7 +65,7 @@ export default class App extends Component{
                     <CardButton
                         onPress={() => Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`)}
                         title="Explore in map"
-                        color="white"
+                        color={"white"}
                         style={styles.cardbtn}
                         />
                     {/* </View> */}
