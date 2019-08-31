@@ -34,7 +34,12 @@
                         <input type="text" class="form-control" id="latlng" placeholder="latitude & longitude">
                     </div>
 
-                    <button type="submit" class="animated zoomIn btn btn-primary hvr-shutter-in-horizontal extend">Submit</button>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="profilepic" placeholder="Enter photo url">
+                    </div>
+
+                    <button type="submit"
+                        class="animated zoomIn btn btn-primary hvr-shutter-in-horizontal extend">Submit</button>
                 </form>
             </div>
             <br>
@@ -50,8 +55,10 @@
                                 format</small>
                         </div>
                         <div class="flex">
-                            <button  id="loadbtn" style="width:60%;margin:8px" class=" btn btn-primary hvr-shutter-in-horizontal extend">Load</button>
-                            <button  id="uploadbtn" style="width:60%;margin:8px" class=" btn btn-primary hvr-shutter-in-horizontal extend">Update</button>
+                            <button id="loadbtn" style="width:60%;margin:8px"
+                                class=" btn btn-primary hvr-shutter-in-horizontal extend">Load</button>
+                            <button id="uploadbtn" style="width:60%;margin:8px"
+                                class=" btn btn-primary hvr-shutter-in-horizontal extend">Update</button>
                         </div>
 
                     </form>
@@ -70,6 +77,28 @@
                         <button class="btn btn-success text-center">GET /getpharmacy</button>
                         <p class="padd text-center">To retrieve the pharmacy</p>
                     </div>
+                    <div class="padd"></div>
+                    <div class="flex flexit">
+                        <button class="btn btn-success text-center">POST /loadmedicine</button>
+                        <p class="padd text-center">Loading medicines</p>
+                    </div>
+                    <div class="padd"></div>
+                    <div class="flex flexit">
+                        <button class="btn btn-success text-center">POST /updatecount</button>
+                        <p class="padd text-center">Updating count of medicines</p>
+                    </div>
+                    <div class="padd"></div>
+                    <div class="flex flexit">
+                        <button class="btn btn-success text-center">POST /updatecount</button>
+                        <p class="padd text-center">Updating count of medicines</p>
+                    </div>
+                    <div class="padd"></div>
+
+                    <div class="flex flexit">
+                        <button class="btn btn-success text-center">GET /getmedicine</button>
+                        <p class="padd text-center">getting medicines owned by a pharmacy</p>
+                    </div>
+
 
                 </div>
 
@@ -77,8 +106,24 @@
 
         </div>
     </div>
+    <div class="padd">
+            <h3 class="bold text-center">Inventory</h3>
+    </div>
+        <div class="flexita1" id="placeman">
+           
+               
+        </div>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+    <script type="text/template" id="temp">
+        <div class="card text-center" style="padding:5%">
+                <i class="fas fa-capsules fa-3x"></i>
+               <br>
+               <h3 class="bold">{{name}}</h3>
+               <p>Price : {{price}}rs</p>
+               <p>Count stock:{{stock}}</p>
+           </div>
+    </script>
     <script src="home.js"></script>
 
 </body>

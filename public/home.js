@@ -23,6 +23,8 @@
   });
 
   function init() {
+      let dest=sel("#placeman");
+      let temp=sel("#temp").innerHTML;
 
       axios.get('/getpharmacy', {
           params: {
@@ -35,6 +37,7 @@
               sel("#name").value = res.data.name;
               sel("#addr").value = res.data.address;
               sel("#latlng").value = res.data.latlng;
+              sel("#profilepic").value = res.data.photo;
           }
       })
 
@@ -43,12 +46,14 @@
           let name = sel("#name").value;
           let address = sel("#addr").value;
           let latlng = sel("#latlng").value;
+          let photo = sel("#profilepic").value;
           let uid = firebase.auth().currentUser.uid;
 
           axios.post('/registerpharmacy', {
                   name,
                   address,
                   latlng,
+                  photo,
                   uid
               })
               .then(function (response) {
@@ -88,12 +93,12 @@
       sel("#uploadbtn").addEventListener("click", (e) => {
           e.preventDefault();
           let all = sel("#dinfo").value.split("-");
-        
+
 
           axios.post('/updatecount', {
-                  name:all[0],
-                  count:all[1],
-                  uid:firebase.auth().currentUser.uid
+                  name: all[0],
+                  count: all[1],
+                  uid: firebase.auth().currentUser.uid
               })
               .then(function (response) {
                   console.log(response);
@@ -103,6 +108,23 @@
               });
 
       });
+
+
+      firebase.firestore().collection("medicines").where("uid", "==", firebase.auth().currentUser.uid)
+          .onSnapshot(function (querySnapshot) {
+              dest.innerHTML="";
+              querySnapshot.forEach(function (doc) {
+                  var surr;
+                  let d=doc.data();
+
+                  surr=temp.replace(/{{name}}/g,d.name);
+                  console.log(surr);
+                  surr=surr.replace(/{{price}}/g,d.price);
+                  surr=surr.replace(/{{stock}}/g,d.count);
+
+                  dest.innerHTML+=surr;
+              });
+          });
   }
 
 

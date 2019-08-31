@@ -8,7 +8,8 @@
     font-family: "apple";
     src: url("mbd.ttf");
 }
-button.btn{
+
+button.btn {
     background: #6c63ff !important;
 }
 
@@ -17,9 +18,10 @@ body {
     font-size: 18px;
 }
 
-.extend{
+.extend {
     width: 100%;
 }
+
 .bold {
     font-family: 'apple';
 }
@@ -29,7 +31,7 @@ body {
 }
 
 
-.hide{
+.hide {
     filter: blur(16px);
 }
 
@@ -140,20 +142,21 @@ button:hover .button-text {
         left: 50%;
         width: 25rem !important;
         transform: translate(-50%, -10px);
-        margin-left:0 
+        margin-left: 0
     }
-    .bold{
+
+    .bold {
         font-size: 36px;
     }
 
 }
 
-.bold{
+.bold {
     font-size: 32px;
 }
 
-.flexit>*{
-    flex:1;
+.flexit>* {
+    flex: 1;
 }
 
 /* Shutter In Horizontal */
@@ -169,10 +172,11 @@ button:hover .button-text {
     transition-property: color;
     -webkit-transition-duration: 0.3s;
     transition-duration: 0.3s;
-    color:#6c63ff;
-    border:3px solid #6c63ff;
-  }
-  .hvr-shutter-in-horizontal:before {
+    color: #6c63ff;
+    border: 3px solid #6c63ff;
+}
+
+.hvr-shutter-in-horizontal:before {
     content: "";
     position: absolute;
     z-index: -1;
@@ -191,11 +195,34 @@ button:hover .button-text {
     transition-duration: 0.3s;
     -webkit-transition-timing-function: ease-out;
     transition-timing-function: ease-out;
-  }
-  .hvr-shutter-in-horizontal:hover, .hvr-shutter-in-horizontal:focus, .hvr-shutter-in-horizontal:active {
+}
+
+.hvr-shutter-in-horizontal:hover,
+.hvr-shutter-in-horizontal:focus,
+.hvr-shutter-in-horizontal:active {
     color: white;
-  }
-  .hvr-shutter-in-horizontal:hover:before, .hvr-shutter-in-horizontal:focus:before, .hvr-shutter-in-horizontal:active:before {
+}
+
+.hvr-shutter-in-horizontal:hover:before,
+.hvr-shutter-in-horizontal:focus:before,
+.hvr-shutter-in-horizontal:active:before {
     -webkit-transform: scaleX(0);
     transform: scaleX(0);
-  }
+}
+
+.flexita1 {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.card {
+    box-shadow: 0px 0px 16px 4px rgba(0, 0, 0, 0.3);
+    border-radius: 1rem;
+    padding-bottom: 10px;
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-bottom: 25px;
+    width: 300px;
+    overflow-wrap: break-word;
+}
